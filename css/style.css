@@ -1,0 +1,36 @@
+/* Custom Font - Los Marmotas */
+@font-face {
+    font-family: 'LosMarmotas';
+    src: url('https://raw.githubusercontent.com/oviedleonel/pagina-web-los-marmotas-growshop/main/fonts/LosMarmotas.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.font-losmarmotas {
+    font-family: 'LosMarmotas', sans-serif;
+}
+
+/* Background pattern for Hero section */
+.bg-stars {
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    background-color: #000000;
+}
+
+/* Custom styles for elements (optional, if not fully covered by Tailwind) */
+/* Example: Shadow for product cards */
+.product-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* NUEVO: Clase para limitar las líneas de la descripción del producto */
+.description-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
