@@ -1,5 +1,5 @@
 // ⚠️ IMPORTANTE: Reemplaza estos valores con la URL y la clave de tu bin en JSONBin.io
-const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/68b0b2daae596e708fda590a';
+const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/68b0b10b43b1c97be92ea0a6';
 const API_KEY = '$2a$10$ZQsqRydDmM9PLH8CLoDxLe7zCgsGIi4n.ZcNTlZPHwlf98MTn4L6K';
 
 // Obtener elementos del DOM
@@ -651,4 +651,5 @@ const init = async () => {
 };
 
 init();
+
 
