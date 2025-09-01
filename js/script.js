@@ -335,16 +335,39 @@ const handleFilterClick = (e) => {
 };
 
 const populateBrandOptions = (category) => {
-    const brands = [...new Set(products.filter(p => p.category === category && p.brand).map(p => p.brand))];
     const brandSelect = document.getElementById('product-form-brand');
     brandSelect.innerHTML = '<option value="">Selecciona Marca</option>';
-    brands.forEach(brand => {
-        const option = document.createElement('option');
-        option.value = brand;
-        option.textContent = brand.charAt(0).toUpperCase() + brand.slice(1);
-        brandSelect.appendChild(option);
-    });
+
+    // Si la categoría es fertilizantes, cargamos las marcas fijas
+    if (category === 'fertilizantes') {
+        const fertilizerBrands = [
+            'Biobizz', 
+            'Vamp', 
+            'Revegetar', 
+            'Mamboreta', 
+            'Tasty', 
+            'Top Crop', 
+            'Namaste'
+        ];
+
+        fertilizerBrands.forEach(brand => {
+            const option = document.createElement('option');
+            option.value = brand;
+            option.textContent = brand;
+            brandSelect.appendChild(option);
+        });
+    } else {
+        // Si no es fertilizante, dejamos el comportamiento original
+        const brands = [...new Set(products.filter(p => p.category === category && p.brand).map(p => p.brand))];
+        brands.forEach(brand => {
+            const option = document.createElement('option');
+            option.value = brand;
+            option.textContent = brand.charAt(0).toUpperCase() + brand.slice(1);
+            brandSelect.appendChild(option);
+        });
+    }
 };
+
 
 // Eventos
 document.addEventListener('click', (e) => {
