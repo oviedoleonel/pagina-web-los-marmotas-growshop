@@ -34,13 +34,19 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-Ajuste SOLO para pantallas móviles */
 
+/* AJUSTE MÓVIL: Posiciona el carrito como un elemento fijo y visible en la parte superior */
 @media (max-width: 640px) {
   #cart-container {
-    bottom: 1rem;   /* Sube el carrito. Podés probar 0.5rem o 2rem según necesites */
-  }
+    /* Hace el carrito flotante */
+    **position: fixed;** /* Lo ancla justo debajo del header fijo (z-50) */
+    **top: 5rem;** /* Ocupa todo el ancho menos un pequeño margen */
+    **right: 0.5rem;** **left: 0.5rem;** /* Asegura que flote sobre otros elementos */
+    **z-index: 40;** /* Reduce el padding para ser menos intrusivo en pantallas pequeñas */
+    **padding: 0.75rem;** /* Asegura que el color de fondo se mantenga para visibilidad */
+    **background-color: #fff;** }
 }
+
 
 
 
