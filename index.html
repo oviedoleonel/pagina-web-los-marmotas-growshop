@@ -7,22 +7,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Enlace a tu archivo CSS personalizado -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- Logo para el favicon (pestaña del navegador) -->
-    <link rel="icon" href="https://raw.githubusercontent.com/oviedoleonel/pagina-web-los-marmotas-growshop/main/b04e66d7-b0aa-4d87-9be2-4f8eeb7577c0%20(2)-fotor-2025081620041.png" type="image/png">
+    <link rel="icon" href="https://raw.githubusercontent.com/oviedoleonel/pagina-web-los-marmotas-growshop/main/b04e66d7-b0aa-4d87-9be2-4f8eeb7577c0%20(2)-fotor-2025081620041.png" type="image/png" type="image/png">
 </head>
 <body class="bg-gray-100 text-gray-800">
 
     <header class="bg-black text-white sticky top-0 z-50 shadow-lg shadow-green-500/20">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <!-- Logo en el encabezado de la navegación -->
-                <img src="https://raw.githubusercontent.com/oviedoleonel/pagina-web-los-marmotas-growshop/main/b04e66d7-b0aa-4d87-9be2-4f8eeb7577c0%20(2)-fotor-2025081620041.png" alt="Los Marmotas Grow Shop Logo" class="h-10 mr-3">
+                <img src="https://raw.githubusercontent.com/oviedoleonel/pagina-web-los-marmotas-growshop/main/b04e66d7-b0aa-4d87-9be2-4f8eeb7577c0%20(2)-fotor-2025081620041.png" type="image/png" alt="Los Marmotas Grow Shop Logo" class="h-10 mr-3">
                 <h1 class="text-2xl font-bold text-white font-losmarmotas">Los Mar<span class="text-green-400">motas</span> Grow Shop</h1>
             </div>
             <div class="flex items-center space-x-4">
-                <!-- Iconos de redes sociales para escritorio -->
                 <div class="hidden md:flex space-x-3 text-white">
                     <a href="https://www.instagram.com/losmarmotas.grow/" target="_blank" class="hover:text-green-400" aria-label="Instagram">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -31,7 +27,6 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                     </a>
                 </div>
-                <!-- Controles de administrador y botón de salir para escritorio -->
                 <div id="admin-controls" class="hidden md:flex items-center space-x-4">
                     <button id="admin-toggle-btn" class="bg-white text-black font-bold py-2 px-4 rounded-lg hover:bg-gray-200 transition">
                         Gestión Admin
@@ -40,7 +35,6 @@
                         Salir
                     </button>
                 </div>
-                <!-- Botón de menú móvil -->
                 <div class="md:hidden">
                     <button id="menu-btn" class="text-white focus:outline-none" aria-label="Abrir menú">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -48,7 +42,6 @@
                 </div>
             </div>
         </nav>
-        <!-- Menú móvil -->
         <div id="mobile-menu" class="hidden md:hidden">
             <a href="#catalogo" class="block py-2 px-4 text-sm hover:bg-gray-800">Catálogo</a>
             <button id="admin-toggle-btn-mobile" class="block w-full text-left py-2 px-4 text-sm hover:bg-gray-800 text-white">
@@ -57,7 +50,6 @@
             <button id="logout-btn-mobile" class="block w-full text-left py-2 px-4 text-sm hover:bg-red-800 text-red-400 hidden">
                 Salir
             </button>
-            <!-- Iconos de redes sociales para móvil -->
             <div class="flex justify-center space-x-6 py-2 border-t border-gray-700 mt-2 pt-2">
                 <a href="https://www.instagram.com/losmarmotas.grow/" target="_blank" class="text-white hover:text-green-400" aria-label="Instagram">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -73,11 +65,10 @@
     <main>
         <section id="hero" class="bg-stars text-white text-center py-20 px-6">
             <div class="container mx-auto">
-                <!-- Logo en la sección hero -->
-                <img src="https://raw.githubusercontent.com/oviedoleonel/pagina-web-los-marmotas-growshop/main/b04e66d7-b0aa-4d87-9be2-4f8eeb7577c0%20(2)-fotor-2025081620041.png" alt="Los Marmotas Logo" class="mx-auto h-32 mb-6">
-                <h2 class="text-4xl md:text-6xl font-bold mb-4 font-losmarmotas">¡Los Mar<span class="text-green-400">motas</span> Grow Shop!</h2>
+                <img src="https://raw.githubusercontent.com/oviedoleonel/pagina-web-los-marmotas-growshop/main/b04e66d7-b0aa-4d87-9be2-4f8eeb7577c0%20(2)-fotor-2025081620041.png" type="image/png" alt="Los Marmotas Logo" class="mx-auto h-32 mb-6">
+                <h2 class="text-4xl md:text-6xl font-bold mb-4 font-losmarmotas">¡Bienvenidos a Los Mar<span class="text-green-400">motas</span> Grow Shop!</h2>
                 <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300">
-                  Bienvenido al grow deseado, donde tu cultivo crece con buena vibra.
+                    Todo lo que tu cultivo necesita, con la mejor onda. Explora nuestro catálogo y haz tu pedido por WhatsApp.
                 </p>
                 <a href="#catalogo" class="mt-8 inline-block bg-green-500 text-black font-bold py-3 px-8 rounded-full text-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
                     Ver Productos
@@ -94,20 +85,15 @@
                     <button class="filter-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-category="sustratos">Sustratos</button>
                     <button class="filter-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-category="fertilizantes">Fertilizantes</button>
                     <button class="filter-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-category="iluminacion">Iluminación</button>
-                    <!-- Nuevo filtro principal para Semillas y Esquejes -->
                     <button class="filter-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-category="semillas-y-esquejes">Semillas y Esquejes</button>
-                    <!-- Renombrado de Accesorios a Parafernalia -->
                     <button id="filter-parafernalia-main" class="filter-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-category="parafernalia">Parafernalia</button>
-                    <!-- NUEVO filtro principal para Accesorios de Cultivo -->
                     <button id="filter-accesorios-cultivo-new" class="filter-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-category="accesorios-de-cultivo">Accesorios de Cultivo</button>
                 </div>
                 
-                <!-- Contenedor para los filtros de subcategorías de Semillas y Esquejes (NUEVO) -->
                 <div id="semillas-y-esquejes-subcategories" class="mb-8 flex flex-wrap justify-center gap-4 hidden">
                     <button class="filter-btn subcategory-btn py-2 px-6 rounded-full bg-green-500 text-black font-bold hover:bg-green-600 transition" data-subcategory="all-semillas-esquejes">Todos</button>
                     <button class="filter-btn subcategory-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-subcategory="semillas">Semillas</button>
                     <button class="filter-btn subcategory-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-subcategory="esquejes">Esquejes</button>
-                    <!-- NUEVO: Contenedor para los filtros de cantidad de Semillas -->
                     <div id="semillas-quantity-filters" class="flex flex-wrap justify-center gap-4 hidden">
                         <button class="filter-btn quantity-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-quantity="all-semillas">Todas las cantidades</button>
                         <button class="filter-btn quantity-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-quantity="3">x3</button>
@@ -116,11 +102,8 @@
                     </div>
                 </div>
 
-                <!-- Contenedor para los filtros de subcategorías de Accesorios/Parafernalia (OCULTO POR DEFECTO) -->
                 <div id="accessory-subcategories" class="mb-8 flex flex-wrap justify-center gap-4 hidden">
-                    <!-- Botón para ver todos los accesorios -->
                     <button class="filter-btn subcategory-btn py-2 px-6 rounded-full bg-green-500 text-black font-bold hover:bg-green-600 transition" data-subcategory="all-accesorios">Todos los Accesorios</button>
-                    <!-- Botones para cada subcategoría de Accesorios (ACTUALIZADO) -->
                     <button class="filter-btn subcategory-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-subcategory="celulosa-y-blunt">Celulosa y Blunt</button>
                     <button class="filter-btn subcategory-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-subcategory="papelillos-y-filtros">Papelillos y Filtros</button>
                     <button class="filter-btn subcategory-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-subcategory="picadores">Picadores</button>
@@ -129,7 +112,6 @@
                     <button class="filter-btn subcategory-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-subcategory="encendedores">Encendedores</button>
                 </div>
 
-                <!-- Contenedor para los filtros de marca de Sustratos (oculto por defecto) -->
                 <div id="sustratos-brands" class="mb-8 flex flex-wrap justify-center gap-4 hidden">
                     <button class="filter-btn brand-btn py-2 px-6 rounded-full bg-green-500 text-black font-bold hover:bg-green-600 transition" data-brand="all-sustratos">Todas las Marcas (Sustratos)</button>
                     <button class="filter-btn brand-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-brand="tasty">Tasty</button>
@@ -137,7 +119,6 @@
                     <button class="filter-btn brand-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-brand="la-pacha-sustrato">La Pacha Sustrato</button>
                 </div>
 
-                <!-- Contenedor para los filtros de marca de Fertilizantes (NUEVO) -->
                 <div id="fertilizantes-brands" class="mb-8 flex flex-wrap justify-center gap-4 hidden">
                     <button class="filter-btn brand-btn py-2 px-6 rounded-full bg-green-500 text-black font-bold hover:bg-green-600 transition" data-brand="all-fertilizantes">Todas las Marcas (Fertilizantes)</button>
                     <button class="filter-btn brand-btn py-2 px-6 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition" data-brand="top-crop">Top Crop</button>
@@ -151,13 +132,12 @@
 
 
                 <div class="grid lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-2">
+                    <div class="lg:col-span-2 **lg:order-2**">
                         <div id="product-list" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                            <!-- Los productos se renderizarán aquí con JS -->
-                        </div>
+                            </div>
                     </div>
-                    <div class="lg:col-span-1">
-                        <div class="bg-white p-6 rounded-lg shadow-lg sticky top-24">
+                    <div class="lg:col-span-1 **lg:order-1**">
+                        <div **id="cart-container"** class="bg-white p-6 rounded-lg shadow-lg sticky top-24">
                             <h3 class="text-2xl font-bold mb-4 font-losmarmotas flex items-center">
                                 <span class="mr-2">🛒</span> Carrito
                             </h3>
@@ -203,9 +183,7 @@
                                 </div>
                             </div>
 
-                            <textarea id="product-form-description" placeholder="Descripción breve del producto (opcional)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2"></textarea> <!-- NEW: Description field -->
-
-                            <select id="product-form-category" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2">
+                            <textarea id="product-form-description" placeholder="Descripción breve del producto (opcional)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2"></textarea> <select id="product-form-category" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2">
                                 <option value="">Selecciona Categoría</option>
                                 <option value="sustratos">Sustratos</option>
                                 <option value="fertilizantes">Fertilizantes</option>
@@ -214,13 +192,11 @@
                                 <option value="parafernalia">Parafernalia</option>
                                 <option value="accesorios-de-cultivo">Accesorios de Cultivo</option>
                             </select>
-                            <!-- Nuevo: Select para Subcategoría (Semillas y Esquejes) (NUEVO) -->
                             <select id="product-form-semillas-esquejes-subcategory" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2 hidden">
                                 <option value="">Selecciona Subcategoría (Semillas y Esquejes)</option>
                                 <option value="semillas">Semillas</option>
                                 <option value="esquejes">Esquejes</option>
                             </select>
-                            <!-- Nuevo: Select para Subcategoría (Accesorios) (ACTUALIZADO) -->
                             <select id="product-form-subcategory" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2 hidden">
                                 <option value="">Selecciona Subcategoría (Accesorios)</option>
                                 <option value="celulosa-y-blunt">Celulosa y Blunt</option>
@@ -230,12 +206,9 @@
                                 <option value="guardado">Guardado</option>
                                 <option value="encendedores">Encendedores</option>
                             </select>
-                            <!-- Nuevo: Select para Marca (Sustratos/Fertilizantes) -->
                             <select id="product-form-brand" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2 hidden">
                                 <option value="">Selecciona Marca</option>
-                                <!-- Opciones de marca se poblarán dinámicamente con JS -->
-                            </select>
-                            <!-- NUEVO: Select para Cantidad de Semillas -->
+                                </select>
                             <select id="product-form-quantity" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2 hidden">
                                 <option value="">Selecciona Cantidad (Semillas)</option>
                                 <option value="3">x3</option>
@@ -250,8 +223,7 @@
                         <h4 class="text-xl font-bold mb-4">Productos Existentes</h4>
                         <div class="overflow-x-auto">
                             <div id="existing-products-list" class="space-y-4 min-w-max">
-                                <!-- Los productos existentes se listarán aquí -->
-                            </div>
+                                </div>
                         </div>
                     </div>
             </div>
@@ -275,7 +247,6 @@
             </div>
         </div>
 
-        <!-- NUEVO: Modal para ampliar imágenes de productos -->
         <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-[100]">
             <div class="relative max-w-4xl mx-auto p-4">
                 <button id="close-image-modal" class="absolute top-4 right-4 text-white text-3xl font-bold hover:text-green-400 transition" aria-label="Cerrar imagen">
@@ -293,8 +264,7 @@
         </div>
     </footer>
 
-    <!-- Enlace a tu archivo JavaScript personalizado -->
     <script src="js/script.js"></script>
 </body>
-
 </html>
+
