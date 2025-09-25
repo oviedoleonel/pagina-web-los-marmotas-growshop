@@ -35,13 +35,13 @@
     overflow: hidden;
 }
 Ajuste SOLO para pantallas móviles */
+
 @media (max-width: 640px) {
-  .cart {
-    bottom: 1rem;   /* lo sube un poco, podés probar con 16px, 24px, etc. */
-    /* Si tu carrito está posicionado por top en lugar de bottom:
-    top: 1rem;
-    */
+  #cart-container {
+    bottom: 1rem;   /* Sube el carrito. Podés probar 0.5rem o 2rem según necesites */
   }
 }
+
+
 
 
