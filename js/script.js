@@ -1,3 +1,5 @@
+
+
 // ⚠️ IMPORTANTE: Reemplaza estos valores con la URL y la clave de tu bin en JSONBin.io
 const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/68b0b2daae596e708fda590a';
 const API_KEY = '$2a$10$ZQsqRydDmM9PLH8CLoDxLe7zCgsGIi4n.ZcNTlZPHwlf98MTn4L6K';
@@ -41,6 +43,9 @@ const menuBtn = document.getElementById('menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 const adminToggleBtnMobile = document.getElementById('admin-toggle-btn-mobile');
 const logoutBtnMobile = document.getElementById('logout-btn-mobile');
+// NUEVOS elementos DOM para Drag & Drop y Animación
+const cartContainer = document.getElementById('cart-container');
+
 
 // Estado de la aplicación
 let products = [];
@@ -190,7 +195,7 @@ const renderProducts = () => {
         const descriptionClass = isLongDescription ? 'description-clamp' : '';
 
         productCard.innerHTML = `
-            <img src="${imageUrl}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e879f9/ffffff?text=Error+al+Cargar+Imagen';" alt="${product.name}" class="w-full h-48 object-cover object-center cursor-pointer">
+            <img src="${imageUrl}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e879f9/ffffff?text=Error+al+Cargar+Imagen';" alt="${product.name}" class="w-full h-48 object-cover object-center cursor-pointer product-image-to-animate">
             <div class="p-4">
                 <h3 class="text-xl font-bold mb-1">${product.name}</h3>
                 <p class="text-gray-600 text-sm mb-2 ${descriptionClass}">${descriptionText}</p>
@@ -220,12 +225,67 @@ const renderProducts = () => {
     });
 };
 
+// Lógica de Drag & Drop para el modo administrador
+let draggedItem = null;
+
+const handleDragStart = (e) => {
+    draggedItem = e.currentTarget;
+    e.currentTarget.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+};
+
+const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const currentItem = e.currentTarget;
+    if (currentItem !== draggedItem) {
+        const bounding = currentItem.getBoundingClientRect();
+        const offset = bounding.y + (bounding.height / 2);
+        if (e.clientY > offset) {
+            existingProductsList.insertBefore(draggedItem, currentItem.nextSibling);
+        } else {
+            existingProductsList.insertBefore(draggedItem, currentItem);
+        }
+    }
+};
+
+const handleDragEnd = (e) => {
+    e.currentTarget.classList.remove('dragging');
+    const newOrder = Array.from(existingProductsList.children).map(item => item.dataset.id);
+
+    // Reordenar el array de productos
+    const newProducts = [];
+    newOrder.forEach(id => {
+        const product = products.find(p => p.id === id);
+        if (product) {
+            newProducts.push(product);
+        }
+    });
+
+    products = newProducts;
+    saveProducts(products); // Guardar el nuevo orden
+    renderProducts(); // Actualizar la vista de la tienda
+
+    draggedItem = null;
+};
+
 const renderAdminProducts = () => {
     existingProductsList.innerHTML = '';
     products.forEach(product => {
         const productItem = document.createElement('div');
-        productItem.className = 'flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm';
+        productItem.className = 'flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm admin-product-item';
+        productItem.setAttribute('draggable', true);
+        productItem.dataset.id = product.id;
+
+        // Añadir manejadores de Drag & Drop
+        productItem.addEventListener('dragstart', handleDragStart);
+        productItem.addEventListener('dragover', handleDragOver);
+        productItem.addEventListener('dragend', handleDragEnd);
+
         productItem.innerHTML = `
+            <div class="drag-handle mr-3 cursor-grab text-gray-400">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 3a1 1 0 011 1v2a1 1 0 11-2 0V4a1 1 0 011-1zM10 17a1 1 0 01-1-1v-2a1 1 0 112 0v2a1 1 0 01-1 1zM3 10a1 1 0 011-1h2a1 1 0 110 2H4a1 1 0 01-1-1zM17 10a1 1 0 01-1-1h-2a1 1 0 110 2h2a1 1 0 011-1zM5.636 5.636a1 1 0 010-1.414l1.414-1.414a1 1 0 011.414 0l1.414 1.414a1 1 0 01-1.414 1.414L7.05 7.05a1 1 0 01-1.414 0zM14.364 5.636a1 1 0 011.414 0l1.414 1.414a1 1 0 010 1.414l-1.414 1.414a1 1 0 01-1.414-1.414l1.414-1.414a1 1 0 010-1.414zM5.636 14.364a1 1 0 010 1.414l1.414 1.414a1 1 0 011.414 0l1.414-1.414a1 1 0 01-1.414-1.414l-1.414 1.414a1 1 0 010 1.414zM14.364 14.364a1 1 0 011.414 0l1.414-1.414a1 1 0 010-1.414l-1.414-1.414a1 1 0 01-1.414 1.414l1.414 1.414a1 1 0 010 1.414z"/></svg>
+            </div>
             <div class="flex-1 min-w-0">
                 <p class="font-bold truncate">${product.name}</p>
                 <p class="text-sm text-gray-500">$${product.price.toLocaleString('es-AR', { minimumFractionDigits: 2 })} - Cat: ${product.category}${product.subcategory ? ` (${product.subcategory})` : ''}${product.brand ? `, Marca: ${product.brand}` : ''}${product.quantity ? `, Cantidad: x${product.quantity}` : ''}</p>
@@ -242,6 +302,51 @@ const renderAdminProducts = () => {
         existingProductsList.appendChild(productItem);
     });
 };
+
+// Función para la animación "Fly to Cart"
+const flyToCartAnimation = (imageElement) => {
+    // 1. Clonar la imagen para la animación
+    const flyingImage = imageElement.cloneNode();
+    flyingImage.classList.remove('product-image-to-animate');
+    flyingImage.style.cssText = `
+        position: fixed;
+        width: ${imageElement.offsetWidth}px;
+        height: ${imageElement.offsetHeight}px;
+        top: ${imageElement.getBoundingClientRect().top}px;
+        left: ${imageElement.getBoundingClientRect().left}px;
+        opacity: 1;
+        z-index: 500;
+        transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        border-radius: 50%; /* Opcional: para que parezca una bolita de item */
+        object-fit: cover;
+    `;
+    document.body.appendChild(flyingImage);
+
+    // 2. Determinar la posición final (el carrito)
+    const cartRect = cartContainer.getBoundingClientRect();
+    const finalX = cartRect.left + cartRect.width / 2 - 25; // Centrado
+    const finalY = cartRect.top + 20; // Cerca del ícono
+
+    // 3. Iniciar la animación
+    setTimeout(() => {
+        flyingImage.style.top = `${finalY}px`;
+        flyingImage.style.left = `${finalX}px`;
+        flyingImage.style.width = '50px';
+        flyingImage.style.height = '50px';
+        flyingImage.style.opacity = '0';
+    }, 10);
+
+    // 4. Limpiar el clon y dar feedback visual al carrito
+    setTimeout(() => {
+        flyingImage.remove();
+        // Feedback visual en el carrito (ej. un pequeño "salto")
+        cartContainer.classList.add('cart-animate-pop');
+        setTimeout(() => {
+            cartContainer.classList.remove('cart-animate-pop');
+        }, 300);
+    }, 700);
+};
+
 
 const handleFilterClick = (e) => {
     const category = e.target.dataset.category;
@@ -352,7 +457,7 @@ const populateBrandOptions = (category) => {
 
         fertilizerBrands.forEach(brand => {
             const option = document.createElement('option');
-            option.value = brand;
+            option.value = brand.toLowerCase().replace(/\s/g, '-'); // Normalizar para la base de datos
             option.textContent = brand;
             brandSelect.appendChild(option);
         });
@@ -382,6 +487,11 @@ document.addEventListener('click', (e) => {
     if (e.target.classList.contains('add-to-cart-btn')) {
         const productId = e.target.dataset.id;
         const productToAdd = products.find(p => p.id === productId);
+        
+        // Determinar la imagen para la animación
+        const productCard = e.target.closest('.product-card');
+        const imageElement = productCard ? productCard.querySelector('.product-image-to-animate') : null;
+
         if (productToAdd) {
             if (cart[productId]) {
                 cart[productId].quantity++;
@@ -390,6 +500,11 @@ document.addEventListener('click', (e) => {
             }
             updateCartDisplay();
             showMessage(`¡Se agregó "${productToAdd.name}" al carrito!`);
+            
+            // Iniciar la animación solo si encontramos la imagen
+            if (imageElement) {
+                flyToCartAnimation(imageElement);
+            }
         }
     }
 
@@ -670,7 +785,7 @@ checkoutBtn.addEventListener('click', () => {
 const init = async () => {
     products = await loadProducts();
     // Si no hay productos cargados de la base de datos, usa los iniciales
-    if (products.length === 0) {
+    if (!products || products.length === 0) {
         const initialProducts = [
             { id: '1', name: 'Growmix Evolution Light', price: 6500, imageUrl: 'https://d26ae3qf3k95a3.cloudfront.net/products/baf5696d-1763-4416-8684-25c7554f67d2_original_large.jpg', category: 'sustratos', brand: 'tasty', description: 'Tierra abonada ideal para el cultivo de semillas y esquejes.' },
             { id: '2', name: 'Growmix Multi-Pro', price: 6000, imageUrl: 'https://growshops.com.ar/wp-content/uploads/2023/11/growmix-multipro-80-litros.jpg', category: 'sustratos', brand: 'cultivate', description: 'Mezcla de sustratos para una nutrición completa.' },
@@ -681,43 +796,18 @@ const init = async () => {
             { id: '7', name: 'Panel LED 150W', price: 50000, imageUrl: 'https://d26ae3qf3k95a3.cloudfront.net/products/panel-led-150w-full-spectrum-1638379468087_large.jpg', category: 'iluminacion', description: 'Panel LED de bajo consumo, ideal para pequeños cultivos.' },
             { id: '8', name: 'Kit de Iluminación 250W', price: 75000, imageUrl: 'https://www.cultivo.com.ar/wp-content/uploads/2020/09/kit-250w.jpg', category: 'iluminacion', description: 'Kit completo de iluminación para cultivo de interior.' },
             { id: '9', name: 'Semillas Ak-47 x 3', price: 15000, imageUrl: 'https://www.growbarato.net/2143-large_default/semillas-ak-47.jpg', category: 'semillas-y-esquejes', subcategory: 'semillas', quantity: 3, description: 'Paquete de 3 semillas feminizadas de Ak-47.' },
-            { id: '10', name: 'Esqueje Lemon Haze', price: 8000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/esquejes-1-f117c462372565696116174771744594-640-0.jpg', category: 'semillas-y-esquejes', subcategory: 'esquejes', description: 'Clon de alta calidad de la cepa Lemon Haze, listo para trasplantar.' },
-            { id: '11', name: 'Papelillos Raw Classic', price: 500, imageUrl: 'https://static.wixstatic.com/media/25292c_2b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b.jpg', category: 'parafernalia', subcategory: 'papelillos-y-filtros', description: 'Papelillos de cáñamo sin blanquear.' },
-            { id: '12', name: 'Picador de Metal', price: 2500, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/picador-metal-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'parafernalia', subcategory: 'picadores', description: 'Picador de metal de 4 partes, compacto y eficiente.' },
-            { id: '13', name: 'Medidor de PH Digital', price: 12000, imageUrl: 'https://d26ae3qf3k95a3.cloudfront.net/products/medidor-ph-digital-1638379468087_large.jpg', category: 'accesorios-de-cultivo', description: 'Medidor digital para controlar el nivel de acidez del agua.' },
-            { id: '14', name: 'Tijeras de Poda Curvas', price: 3500, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/tijeras-curvas-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'accesorios-de-cultivo', description: 'Tijeras de precisión para la manicura y poda de plantas.' },
-            { id: '15', name: 'Kit de Medición pH y EC', price: 25000, imageUrl: 'https://m.media-amazon.com/images/I/71YyXn1u8BL._AC_UF894,1000_QL80_.jpg', category: 'accesorios-de-cultivo', description: 'Kit completo para medir pH y conductividad eléctrica.' },
-            { id: '16', name: 'Fertilizante Top Veg', price: 5200, imageUrl: 'https://www.topcrop.es/img/productos/top-veg.jpg', category: 'fertilizantes', brand: 'top-crop', description: 'Abono para la fase de crecimiento de tus plantas.' },
-            { id: '17', name: 'Sustrato Cultivate Indoor', price: 6800, imageUrl: 'https://growshops.com.ar/wp-content/uploads/2023/11/cultivate-indoor.jpg', category: 'sustratos', brand: 'cultivate', description: 'Sustrato específico para cultivos de interior, con excelente aireación.' },
-            { id: '18', name: 'Lámpara de Sodio 400W', price: 85000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/lampara-sodio-400w-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'iluminacion', description: 'Lámpara de alta presión para floración y crecimiento.' },
-            { id: '19', name: 'Semillas Gorilla Glue x 5', price: 20000, imageUrl: 'https://www.royalqueenseeds.es/img/t/172-172-gorilla-glue.jpg', category: 'semillas-y-esquejes', subcategory: 'semillas', quantity: 5, description: 'Paquete de 5 semillas feminizadas de la potente Gorilla Glue.' },
-            { id: '20', name: 'Esqueje Northern Lights', price: 9000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/esqueje-northern-lights-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'semillas-y-esquejes', subcategory: 'esquejes', description: 'Clon de la clásica cepa Northern Lights.' },
-            { id: '21', name: 'Sustrato Growmix Premium', price: 7200, imageUrl: 'https://growshops.com.ar/wp-content/uploads/2023/11/growmix-premium-80-litros.jpg', category: 'sustratos', brand: 'cultivate', description: 'Mezcla premium con perlita, turba y humus de lombriz.' },
-            { id: '22', name: 'Namaste Base A+B', price: 8500, imageUrl: 'https://www.namastecultivos.com.ar/wp-content/uploads/2021/03/baseab.jpg', category: 'fertilizantes', brand: 'namaste', description: 'Nutrientes base para crecimiento y floración.' },
-            { id: '23', name: 'Filtro de Carbón Activado', price: 18000, imageUrl: 'https://d26ae3qf3k95a3.cloudfront.net/products/filtro-carbon-activo-1638379468087_large.jpg', category: 'accesorios-de-cultivo', description: 'Elimina olores y purifica el aire de tu cultivo.' },
-            { id: '24', name: 'Papelillos Gizeh Slim', price: 450, imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7k-4b9b_W_sSjK6-8l_K-w_8l_K-w_8l_K-w_8l&s', category: 'parafernalia', subcategory: 'papelillos-y-filtros', description: 'Papelillos extrafinos para un quemado lento.' },
-            { id: '25', name: 'Semillas Auto x3', price: 18000, imageUrl: 'https://d26ae3qf3k95a3.cloudfront.net/products/baf5696d-1763-4416-8684-25c7554f67d2_original_large.jpg', category: 'semillas-y-esquejes', subcategory: 'semillas', quantity: 3, description: 'Paquete de 3 semillas autoflorecientes de última generación.' },
-            { id: '26', name: 'Semillas Fotoperiódicas x4', price: 22000, imageUrl: 'https://d26ae3qf3k95a3.cloudfront.net/products/baf5696d-1763-4416-8684-25c7554f67d2_original_large.jpg', category: 'semillas-y-esquejes', subcategory: 'semillas', quantity: 4, description: 'Paquete de 4 semillas para cultivo con fotoperíodo controlado.' },
-            { id: '27', name: 'Semillas XXL x12', price: 50000, imageUrl: 'https://d26ae3qf3k95a3.cloudfront.net/products/b04e66d7-b0aa-4d87-9be2-4f8eeb7577c0 (2)-fotor-2025081620041.png', category: 'semillas-y-esquejes', subcategory: 'semillas', quantity: 12, description: 'Paquete de 12 semillas para una cosecha abundante.' },
-            { id: '28', name: 'Blunt King Palm', price: 1200, imageUrl: 'https://www.smokerparadise.co/cdn/shop/files/bluntkingpalm.jpg?v=1704200466', category: 'parafernalia', subcategory: 'celulosa-y-blunt', description: 'Blunt de hoja natural de palma.' },
-            { id: '29', name: 'Encendedor Clipper', price: 800, imageUrl: 'https://www.clipper.com.ar/wp-content/uploads/2021/07/clipper-encendedor.jpg', category: 'parafernalia', subcategory: 'encendedores', description: 'Encendedor recargable y de diseño ergonómico.' },
-            { id: '30', name: 'Bandeja de Armado Pequeña', price: 1500, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/bandeja-armado-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'parafernalia', subcategory: 'bandejas-ceniceros', description: 'Bandeja metálica para organizar tus accesorios.' },
-            { id: '31', name: 'Frasco de Vidrio Curado', price: 3000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/frasco-curado-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'parafernalia', subcategory: 'guardado', description: 'Frasco hermético ideal para curar y guardar flores.' },
-            { id: '32', name: 'Kit de Fertilización Vamp', price: 10000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/vamp-kit-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'fertilizantes', brand: 'vamp', description: 'Kit completo de fertilizantes para todo el ciclo de la planta.' },
-            { id: '33', name: 'Fungicida Mamboretá H', price: 4500, imageUrl: 'https://www.mamboreta.com.ar/images/productos/h-thumb.jpg', category: 'fertilizantes', brand: 'mamboreta', description: 'Fungicida sistémico para prevenir y curar enfermedades fúngicas.' },
-            { id: '34', name: 'Insecticida Mamboretá D', price: 4200, imageUrl: 'https://www.mamboreta.com.ar/images/productos/d-thumb.jpg', category: 'fertilizantes', brand: 'mamboreta', description: 'Insecticida para el control de plagas como araña roja y mosca blanca.' },
-            { id: '35', name: 'Biobizz Bio-Grow', price: 6000, imageUrl: 'https://www.biobizz.com/wp-content/uploads/2019/11/BIO-GROW-FRONT.png', category: 'fertilizantes', brand: 'biobizz', description: 'Fertilizante orgánico líquido para crecimiento.' },
-            { id: '36', name: 'Biobizz Bio-Bloom', price: 6200, imageUrl: 'https://www.biobizz.com/wp-content/uploads/2019/11/BIO-BLOOM-FRONT.png', category: 'fertilizantes', brand: 'biobizz', description: 'Fertilizante orgánico líquido para floración.' },
-            { id: '37', name: 'Revegetar Micorrizas', price: 3500, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/revegetar-micorrizas-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'fertilizantes', brand: 'revegetar', description: 'Hongos benéficos para mejorar la absorción de nutrientes.' },
-            { id: '38', name: 'Kit de Sustrato Tasty', price: 8500, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/tasty-kit-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'sustratos', brand: 'tasty', description: 'Kit de sustrato y aditivos de la marca Tasty.' },
-            { id: '39', name: 'Fertilizante Tasty Grow', price: 5000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/tasty-grow-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'fertilizantes', brand: 'tasty-fert', description: 'Fertilizante para la fase de crecimiento de Tasty.' },
-            { id: '40', name: 'Fertilizante Tasty Bloom', price: 5300, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/061/365/products/tasty-bloom-1-1b6a711c7d2c3e1e9c16174780517724-640-0.jpg', category: 'fertilizantes', brand: 'tasty-fert', description: 'Fertilizante para la fase de floración de Tasty.' }
+            { id: '10', name: 'Esqueje Lemon Haze', price: 8000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/418/691/products/c600-s-l-1250-w-80h-1681223945-802c63d414a90586e316812239634710-1024-1024.webp', category: 'semillas-y-esquejes', subcategory: 'esquejes', description: 'Esqueje con raíces de Lemon Haze.' },
+            { id: '11', name: 'Bandeja de Liado', price: 2500, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/696/754/products/raw-classic-rolling-tray1-4c126d40d9b439c2c016428751502444-640-0.jpg', category: 'parafernalia', subcategory: 'bandejas-ceniceros', description: 'Bandeja metálica para liar cómodamente.' },
+            { id: '12', name: 'Picador Metálico 4 partes', price: 4000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/170/393/products/picador-metaltico-40mm-silver-4-partes-mkt-03-37e42d627c5148386a15886915128038-640-0.jpeg', category: 'parafernalia', subcategory: 'picadores', description: 'Picador de aluminio de 4 partes.' },
+            { id: '13', name: 'Celulosa King Size', price: 1500, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/696/754/products/celulosa-lion-rolling-circus-king-size-x-1-unidad1-60a638b97d8120e2a416805492404095-640-0.jpg', category: 'parafernalia', subcategory: 'celulosa-y-blunt', description: 'Papel de celulosa transparente de tamaño King Size.' },
+            { id: '14', name: 'Medidor de PH Digital', price: 12000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/309/781/products/medidor-ph-digital1-766b965c40498b5e6116668705035255-640-0.webp', category: 'accesorios-de-cultivo', description: 'Medidor de pH para soluciones nutritivas.' },
+            { id: '15', name: 'Tijeras de Poda', price: 3000, imageUrl: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/309/781/products/tijeras-de-poda-para-indoor-y-exterior-1-8a9d18728d7168d24916298177405108-640-0.webp', category: 'accesorios-de-cultivo', description: 'Tijeras de punta fina para manicurado y poda.' }
         ];
         products = initialProducts;
+        saveProducts(products);
     }
     renderProducts();
     updateCartDisplay();
 };
-
 
 init();
