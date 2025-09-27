@@ -1,3 +1,8 @@
+
+
+
+
+
 /* Custom Font - Los Marmotas */
 @font-face {
     font-family: 'LosMarmotas';
@@ -35,19 +40,58 @@
     overflow: hidden;
 }
 
-/* AJUSTE MÓVIL: Posiciona el carrito como un elemento fijo y visible en la parte superior */
-@media (max-width: 640px) {
-  #cart-container {
-    /* Hace el carrito flotante */
-    **position: fixed;** /* Lo ancla justo debajo del header fijo (z-50) */
-    **top: 5rem;** /* Ocupa todo el ancho menos un pequeño margen */
-    **right: 0.5rem;** **left: 0.5rem;** /* Asegura que flote sobre otros elementos */
-    **z-index: 40;** /* Reduce el padding para ser menos intrusivo en pantallas pequeñas */
-    **padding: 0.75rem;** /* Asegura que el color de fondo se mantenga para visibilidad */
-    **background-color: #fff;** }
+/* --- AJUSTES CARRITO MÓVIL (Versión Móvil) --- */
+@media (max-width: 1023px) { /* Límite para dispositivos que no son 'lg' o mayor */
+    #cart-container {
+        /* Hace el carrito flotante */
+        position: fixed; 
+        top: 5rem; /* Justo debajo del header fijo (z-50) */
+        right: 0.5rem; 
+        left: 0.5rem; 
+        z-index: 40; /* Flota sobre el contenido */
+        padding: 0.75rem; 
+        background-color: #fff; 
+        /* Estilos para ocultar y mostrar en móvil */
+        transform: translateY(0);
+        transition: transform 0.3s ease-in-out;
+        max-height: 80vh; /* Limitar altura */
+        overflow-y: auto; /* Permitir scroll si es necesario */
+    }
 }
 
+/* --- ESTILOS DE ADMINISTRADOR (DRAG & DROP) --- */
 
+.admin-product-item {
+    cursor: grab;
+    transition: background-color 0.2s ease;
+    border: 1px solid transparent;
+}
 
+.admin-product-item:hover {
+    background-color: #f3f4f6;
+}
 
+.admin-product-item.dragging {
+    opacity: 0.5;
+    border: 1px dashed #10b981; /* Borde visible al arrastrar */
+    background-color: #d1fae5;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
 
+.drag-handle {
+    cursor: grab;
+    padding-right: 0.5rem;
+}
+
+/* --- ESTILOS DE ANIMACIÓN "FLY TO CART" --- */
+
+/* Animación de "pop" para el carrito al recibir un ítem */
+@keyframes cart-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.cart-animate-pop {
+    animation: cart-pop 0.3s ease-in-out;
+}
